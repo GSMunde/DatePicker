@@ -1,25 +1,44 @@
-import logo from './logo.svg';
-import './App.css';
+// App.js
+import React, { useState } from 'react';
+import RecurrenceOptions from './Components/RecurrenceOptions';
+import DatePicker from './Components/DatePicker';
+import MiniCalendar from './Components/MiniCalendar';
+import './App.css'
 
-function App() {
+const App = () => {
+  const [recurrence, setRecurrence] = useState({
+    frequency: 'daily', // daily, weekly, monthly, yearly
+    interval: 1,
+    daysOfWeek: [],
+    nthDayOfMonth: null,
+    startDate: '',
+    endDate: '',
+  });
+
+  const handleRecurrenceChange = (updatedRecurrence) => {
+    setRecurrence(updatedRecurrence);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="container mx-auto p-4  border border-grey-500 bg-[#83858a]">
+      <div className='p-3 DateName mb-4 '>
+        <h1 className=" text-xl items-center md:text-2xl font-bold mb-4 ">Date Picker</h1>
+      </div>
+      <div className='md:flex justify-center items-center gap-10'>
+      {/* Recurrence Options */}
+      <RecurrenceOptions
+        recurrence={recurrence}
+        onRecurrenceChange={handleRecurrenceChange}
+      />
+
+      {/* Date Range Picker */}
+      <DatePicker recurrence={recurrence} onRecurrenceChange={handleRecurrenceChange} />
+
+      {/* Mini Calendar Preview */}
+      <MiniCalendar recurrence={recurrence} />
+      </div>
     </div>
   );
-}
+};
 
 export default App;
